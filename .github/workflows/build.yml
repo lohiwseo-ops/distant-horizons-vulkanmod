@@ -2,16 +2,13 @@ name: Build DH-VulkanMod 1.21.10
 
 on:
   workflow_dispatch:
-    inputs:
-      mc_version:
-        description: 'Minecraft Version'
-        required: true
-        default: '1.21.10'
+  push:
+    branches:
+      - dev-v2.4.6+vm.5
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +34,7 @@ jobs:
             "https://cdn.modrinth.com/data/JYQhtZtO/versions/7kz8u8GF/VulkanMod_1.21.10-0.6.1.jar"
 
       - name: Build Mod with Gradle
-        run: ./gradlew :vulkan:remapJar -PmcVer="${{ github.event.inputs.mc_version }}" --stacktrace
+        run: ./gradlew :vulkan:remapJar -PmcVer="1.21.10" --no-daemon --stacktrace
 
       - name: Upload Built Mod JAR
         uses: actions/upload-artifact@v4

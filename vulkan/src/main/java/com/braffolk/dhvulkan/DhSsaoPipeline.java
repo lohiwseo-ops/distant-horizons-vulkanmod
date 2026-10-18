@@ -179,7 +179,7 @@ public class DhSsaoPipeline {
         String fragSource = readShaderResource("shaders/vulkan/dh_ssao.frag");
 
         Pipeline.Builder builder = new Pipeline.Builder(QUAD_FORMAT);
-        builder.compileShaders("dh_ssao_compute", vertSource, fragSource);
+        // builder.compileShaders("dh_ssao_compute", vertSource, fragSource);
 
         // UBO at binding 0: SSAO parameters
         List<UBO> ubos = new ArrayList<>();
@@ -200,7 +200,7 @@ public class DhSsaoPipeline {
 
         // Image descriptor: DH depth at binding 1
         List<ImageDescriptor> imageDescriptors = new ArrayList<>();
-        imageDescriptors.add(new ImageDescriptor(1, "sampler2D", "uDepthMap", SSAO_DEPTH_TEXTURE_SLOT));
+        imageDescriptors.add(new ImageDescriptor(1, "sampler2D", "uDepthMap", SSAO_DEPTH_TEXTURE_SLOT, 0));
 
         builder.setUniforms(ubos, imageDescriptors);
         this.ssaoComputePipeline = builder.createGraphicsPipeline();
@@ -216,7 +216,7 @@ public class DhSsaoPipeline {
         String fragSource = readShaderResource("shaders/vulkan/dh_ssao_apply.frag");
 
         Pipeline.Builder builder = new Pipeline.Builder(QUAD_FORMAT);
-        builder.compileShaders("dh_ssao_apply", vertSource, fragSource);
+        // builder.compileShaders("dh_ssao_apply", vertSource, fragSource);
 
         // UBO at binding 0: blur parameters
         List<UBO> ubos = new ArrayList<>();
@@ -234,8 +234,8 @@ public class DhSsaoPipeline {
 
         // Image descriptors: raw SSAO at binding 1, DH depth at binding 2
         List<ImageDescriptor> imageDescriptors = new ArrayList<>();
-        imageDescriptors.add(new ImageDescriptor(1, "sampler2D", "gSSAOMap", SSAO_RAW_TEXTURE_SLOT));
-        imageDescriptors.add(new ImageDescriptor(2, "sampler2D", "gDepthMap", SSAO_APPLY_DEPTH_TEXTURE_SLOT));
+        imageDescriptors.add(new ImageDescriptor(1, "sampler2D", "gSSAOMap", SSAO_RAW_TEXTURE_SLOT, 0));
+        imageDescriptors.add(new ImageDescriptor(2, "sampler2D", "gDepthMap", SSAO_APPLY_DEPTH_TEXTURE_SLOT, 0));
 
         builder.setUniforms(ubos, imageDescriptors);
         this.ssaoApplyPipeline = builder.createGraphicsPipeline();
